@@ -22,7 +22,17 @@ export default function Command() {
       {tasks?.tasks.map((item) => (
         <List.Item
           key={item.taskId}
-          icon={item.percent === 100 ? Icon.Checkmark : item.percent === 0 ? Icon.Circle : Icon.CircleProgress50}
+          icon={
+            item.percent === 0
+              ? Icon.Circle
+              : item.percent < 25
+                ? Icon.CircleProgress25
+                : item.percent < 50
+                  ? Icon.CircleProgress50
+                  : item.percent < 75
+                    ? Icon.CircleProgress75
+                    : Icon.CircleProgress100
+          }
           title={item.name}
           subtitle={item.percent + "%"}
           accessories={[{ text: item.problemsDone + "/" + item.problems }]}
