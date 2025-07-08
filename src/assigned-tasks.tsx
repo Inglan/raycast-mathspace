@@ -18,7 +18,7 @@ export default function Command() {
     getAssignedTasks().then(setTasks);
   }, []);
   return (
-    <List>
+    <List isLoading={tasks === null}>
       {tasks?.tasks.map((item) => (
         <List.Item
           key={item.taskId}
