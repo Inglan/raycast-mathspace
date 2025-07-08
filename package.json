@@ -41,7 +41,7 @@
       "type": "password"
     },
     {
-      "name": "x-csrftoken",
+      "name": "csrftoken",
       "title": "X-CSRFToken",
       "description": "Your Mathspace CSRF token",
       "required": true,
