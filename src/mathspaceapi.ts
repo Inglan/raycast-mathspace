@@ -483,5 +483,8 @@ export async function getLeaderboard() {
   return {
     leaderboard: sunflowerStudentDashboardQueryResponse.viewer.leaderboard.currentWeek,
     xp: sunflowerStudentDashboardQueryResponse.viewer.selfReportedGrade.order,
+    place: sunflowerStudentDashboardQueryResponse.viewer.leaderboard.currentWeek.filter(
+      (student: { id: string }) => student.id === sunflowerStudentDashboardQueryResponse.viewer.id,
+    )[0].rank,
   };
 }
