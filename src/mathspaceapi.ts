@@ -405,6 +405,7 @@ export async function SunflowerStudentDashboardQuery(viewerProviderQueryResponse
         strandId: viewerProviderQueryResponse.data.lantern.viewer.id,
         substrandId: viewerProviderQueryResponse.data.lantern.viewer.learningFocus.id,
         numberOfClasses: 1000,
+        classId: viewerProviderQueryResponse.data.viewer.profile.leaderboardClass.class.id,
         enableClassSelectionPrompt:
           viewerProviderQueryResponse.data.viewer.featureFlagsV2.gamificationEnableLeaderboardClassSelectionPrompt,
         hasLeaderboardDockEnabled:
