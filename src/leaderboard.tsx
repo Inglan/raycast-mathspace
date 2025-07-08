@@ -21,7 +21,7 @@ export default function Command() {
   }, []);
 
   return (
-    <List isLoading={leaderboard === null}>
+    <List isLoading={leaderboard == null}>
       {leaderboard?.leaderboard.map((item) => (
         <List.Item
           key={item.studentId}
