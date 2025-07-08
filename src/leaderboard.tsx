@@ -1,4 +1,6 @@
-import { ActionPanel, Action, Icon, List } from "@raycast/api";
+import { ActionPanel, Action, Icon, List, Image } from "@raycast/api";
+import { getLeaderboard } from "./mathspaceapi";
+import { useEffect, useState } from "react";
 
 const ITEMS = Array.from(Array(3).keys()).map((key) => {
   return {
@@ -11,20 +13,32 @@ const ITEMS = Array.from(Array(3).keys()).map((key) => {
 });
 
 export default function Command() {
+  const [leaderboard, setLeaderboard] = useState<{
+    leaderboard: Array<{
+      points: number;
+      rank: number;
+      name: string;
+      avatarUrl: string;
+      studentId: string;
+      rankDelta: number;
+    }>;
+    xp: number;
+    place: number;
+  } | null>();
+
+  useEffect(() => {
+    getLeaderboard().then(setLeaderboard);
+  }, []);
+
   return (
     <List>
-      {ITEMS.map((item) => (
+      {leaderboard?.leaderboard.map((item) => (
         <List.Item
-          key={item.id}
-          icon={item.icon}
-          title={item.title}
-          subtitle={item.subtitle}
-          accessories={[{ icon: Icon.Text, text: item.accessory }]}
-          actions={
-            <ActionPanel>
-              <Action.CopyToClipboard content={item.title} />
-            </ActionPanel>
-          }
+          key={item.studentId}
+          icon={{ source: item.avatarUrl, mask: Image.Mask.Circle }}
+          title={item.name}
+          subtitle={String(item.points)}
+          accessories={[{ text: String(item.rank) }]}
         />
       ))}
     </List>
