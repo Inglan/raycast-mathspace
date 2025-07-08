@@ -7,4 +7,5 @@ interface Preferences {
 
 export async function dashbaordQuery() {
   const { cookie, csrftoken } = getPreferenceValues<Preferences>();
+  return { cookie, csrftoken };
 }
