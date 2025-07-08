@@ -5,4 +5,6 @@ interface Preferences {
   csrftoken: string;
 }
 
-export function dashbaordQuery() {}
+export async function dashbaordQuery() {
+  const { cookie, csrftoken } = getPreferenceValues<Preferences>();
+}
