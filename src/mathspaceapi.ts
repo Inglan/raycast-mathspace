@@ -441,7 +441,7 @@ export async function getBasicInformation() {
 export async function getAssignedTasks() {
   const viewerProviderQueryResponse = await ViewerProviderQuery();
   const sunflowerStudentDashboardQueryResponse = await SunflowerStudentDashboardQuery(viewerProviderQueryResponse);
-  const tasksData = sunflowerStudentDashboardQueryResponse.viewer.upcomingTasks;
+  const tasksData = sunflowerStudentDashboardQueryResponse.data.viewer.profile.upcomingTasks;
   const tasks = [] as {
     name: string;
     taskId: string;
