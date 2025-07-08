@@ -381,9 +381,14 @@ export async function ViewerProviderQuery() {
   return (await result.json()) as ViewerProviderQueryType;
 }
 
-export async function dashbaordQuery() {
-  const viewerProviderQueryResponse = await ViewerProviderQuery();
-
+export async function dashbaordQuery({
+  viewerProviderQueryResponse = null,
+}: {
+  viewerProviderQueryResponse: ViewerProviderQueryType | null;
+}) {
+  if (viewerProviderQueryResponse == null) {
+    viewerProviderQueryResponse = await ViewerProviderQuery();
+  }
   const { cookie, csrftoken } = getPreferenceValues<Preferences>();
   const options = {
     method: "POST",
