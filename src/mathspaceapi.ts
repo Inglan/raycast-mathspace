@@ -480,11 +480,28 @@ export async function getLeaderboard() {
   const viewerProviderQueryResponse = await ViewerProviderQuery();
   const sunflowerStudentDashboardQueryResponse = await SunflowerStudentDashboardQuery(viewerProviderQueryResponse);
 
-  return {
-    leaderboard: sunflowerStudentDashboardQueryResponse.viewer.leaderboard.currentWeek,
-    xp: sunflowerStudentDashboardQueryResponse.viewer.selfReportedGrade.order,
-    place: sunflowerStudentDashboardQueryResponse.viewer.leaderboard.currentWeek.filter(
-      (student: { id: string }) => student.id === sunflowerStudentDashboardQueryResponse.viewer.id,
+  const data = <
+    {
+      leaderboard: Array<{
+        points: number;
+        rank: number;
+        name: string;
+        avatarUrl: string;
+        studentId: string;
+        rankDelta: number;
+      }>;
+      xp: number;
+      place: number;
+    }
+  >{
+    leaderboard: sunflowerStudentDashboardQueryResponse.data.viewer.profile.leaderboard.currentWeek,
+    xp: sunflowerStudentDashboardQueryResponse.data.lantern.viewer.selfReportedGrade.order,
+    place: sunflowerStudentDashboardQueryResponse.data.viewer.profile.leaderboard.currentWeek.filter(
+      (student: { studentId: string }) =>
+        student.studentId.replace("Student-", "") ==
+        sunflowerStudentDashboardQueryResponse.data.viewer.id.replace("User-", ""),
     )[0].rank,
   };
+
+  return data;
 }
