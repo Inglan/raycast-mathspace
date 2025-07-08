@@ -482,5 +482,6 @@ export async function getLeaderboard() {
 
   return {
     leaderboard: sunflowerStudentDashboardQueryResponse.viewer.leaderboard.currentWeek,
+    xp: sunflowerStudentDashboardQueryResponse.viewer.selfReportedGrade.order,
   };
 }
