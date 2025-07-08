@@ -475,3 +475,12 @@ export async function getAssignedTasks() {
   };
   return data;
 }
+
+export async function getLeaderboard() {
+  const viewerProviderQueryResponse = await ViewerProviderQuery();
+  const sunflowerStudentDashboardQueryResponse = await SunflowerStudentDashboardQuery(viewerProviderQueryResponse);
+
+  return {
+    leaderboard: sunflowerStudentDashboardQueryResponse.viewer.leaderboard.currentWeek,
+  };
+}
