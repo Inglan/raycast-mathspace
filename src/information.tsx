@@ -1,4 +1,4 @@
-import { Detail } from "@raycast/api";
+import { Action, ActionPanel, Detail } from "@raycast/api";
 import { useState } from "react";
 import { getBasicInformation, getLeaderboard } from "./mathspaceapi";
 
@@ -28,13 +28,17 @@ export default function Command() {
   return (
     <Detail
       isLoading={basicData === undefined || leaderboard === undefined}
+      actions={
+        <ActionPanel>
+          <Action.OpenInBrowser title="Open Mathspace" url="https://mathspace.co/student" />
+        </ActionPanel>
+      }
       markdown={`# ${basicData?.name.first || ""} ${basicData?.name.last || ""}
 ## Email: ${basicData?.email || ""}
 
 ## XP: ${leaderboard?.xp || ""}
 
-## Place on leaderboard: ${leaderboard?.place || ""}
-    `}
+## Place on leaderboard: ${leaderboard?.place || ""}`}
     />
   );
 }
