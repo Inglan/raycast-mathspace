@@ -1,16 +1,6 @@
-import { ActionPanel, Action, Icon, List, Image } from "@raycast/api";
+import { List, Image } from "@raycast/api";
 import { getLeaderboard } from "./mathspaceapi";
 import { useEffect, useState } from "react";
-
-const ITEMS = Array.from(Array(3).keys()).map((key) => {
-  return {
-    id: key,
-    icon: Icon.Bird,
-    title: "Title " + key,
-    subtitle: "Subtitle",
-    accessory: "Accessory",
-  };
-});
 
 export default function Command() {
   const [leaderboard, setLeaderboard] = useState<{
