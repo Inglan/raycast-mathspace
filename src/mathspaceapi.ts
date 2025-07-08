@@ -381,11 +381,7 @@ export async function ViewerProviderQuery() {
   return (await result.json()) as ViewerProviderQueryType;
 }
 
-export async function dashbaordQuery({
-  viewerProviderQueryResponse = null,
-}: {
-  viewerProviderQueryResponse: ViewerProviderQueryType | null;
-}) {
+export async function SunflowerStudentDashboardQuery(viewerProviderQueryResponse?: ViewerProviderQueryType | null) {
   if (viewerProviderQueryResponse == null) {
     viewerProviderQueryResponse = await ViewerProviderQuery();
   }
@@ -422,4 +418,60 @@ export async function dashbaordQuery({
 
   const result = await fetch("https://mathspace.co/graphql/public/", options);
   return result.json();
+}
+
+export async function getBasicInformation() {
+  const viewerProviderQueryResponse = await ViewerProviderQuery();
+
+  const data = {
+    name: {
+      first: viewerProviderQueryResponse.data.viewer.firstName,
+      last: viewerProviderQueryResponse.data.viewer.lastName,
+    },
+    email: viewerProviderQueryResponse.data.viewer.email,
+    learningFocus: {
+      id: viewerProviderQueryResponse.data.lantern.viewer.learningFocus.id,
+      name: viewerProviderQueryResponse.data.lantern.viewer.learningFocus.title,
+    },
+  };
+  return data;
+}
+
+export async function getAssignedTasks() {
+  const viewerProviderQueryResponse = await ViewerProviderQuery();
+  const sunflowerStudentDashboardQueryResponse = await SunflowerStudentDashboardQuery(viewerProviderQueryResponse);
+  const tasksData = sunflowerStudentDashboardQueryResponse.viewer.upcomingTasks;
+  const tasks = [] as {
+    name: string;
+    taskId: string;
+    workoutId: string;
+    url: string;
+    problems: number;
+    problemsDone: number;
+    percent: number;
+  }[];
+
+  tasksData.forEach(
+    (task: { task: { title: string; id: string }; workout: { id: string; problems: { outcome: string }[] } }) => {
+      tasks.push({
+        name: task.task.title,
+        taskId: task.task.id,
+        workoutId: task.workout.id,
+        url: `https://mathspace.co/work/${task.workout.id}/`,
+        problems: task.workout.problems.length,
+        problemsDone: task.workout.problems.filter((problem: { outcome: string }) => problem.outcome === "CORRECT")
+          .length,
+        percent: Math.round(
+          (task.workout.problems.filter((problem: { outcome: string }) => problem.outcome === "CORRECT").length /
+            task.workout.problems.length) *
+            100,
+        ),
+      });
+    },
+  );
+
+  const data = {
+    tasks,
+  };
+  return data;
 }
