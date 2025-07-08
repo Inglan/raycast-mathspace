@@ -32,6 +32,22 @@
       "mode": "view"
     }
   ],
+  "preferences": [
+    {
+      "name": "cookie",
+      "title": "Cookie",
+      "description": "Your Mathspace Cookie",
+      "required": true,
+      "type": "password"
+    },
+    {
+      "name": "x-csrftoken",
+      "title": "X-CSRFToken",
+      "description": "Your Mathspace CSRF token",
+      "required": true,
+      "type": "password"
+    }
+  ],
   "dependencies": {
     "@raycast/api": "^1.100.3",
     "@raycast/utils": "^1.17.0"
