@@ -1,5 +1,5 @@
 import { Action, ActionPanel, Detail } from "@raycast/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getBasicInformation, getLeaderboard } from "./mathspaceapi";
 
 export default function Command() {
@@ -22,8 +22,10 @@ export default function Command() {
     place: number;
   } | null>();
 
-  getLeaderboard().then(setLeaderboard);
-  getBasicInformation().then(setBasicData);
+  useEffect(() => {
+    getLeaderboard().then(setLeaderboard);
+    getBasicInformation().then(setBasicData);
+  }, []);
 
   return (
     <Detail
