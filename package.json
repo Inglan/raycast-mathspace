@@ -3,7 +3,7 @@
   "name": "mathspace",
   "title": "Mathspace",
   "description": "View mathspace tasks and other stuff easily",
-  "icon": "extension-icon.png",
+  "icon": "icon.png",
   "author": "ingowolf",
   "license": "MIT",
   "commands": [
