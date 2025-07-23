@@ -494,7 +494,7 @@ export async function getLeaderboard() {
     }
   >{
     leaderboard: sunflowerStudentDashboardQueryResponse.data.viewer.profile.leaderboard.currentWeek,
-    xp: sunflowerStudentDashboardQueryResponse.data.lantern.viewer.selfReportedGrade.order,
+    xp: sunflowerStudentDashboardQueryResponse.data.viewer.profile.user.points.current,
     place: sunflowerStudentDashboardQueryResponse.data.viewer.profile.leaderboard.currentWeek.filter(
       (student: { studentId: string }) =>
         student.studentId.replace("Student-", "") ==
