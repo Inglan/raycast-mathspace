@@ -19,26 +19,26 @@ export default function Command() {
   }, []);
   return (
     <List isLoading={tasks == null}>
-      {tasks?.tasks.map((item) => (
+      {tasks?.tasks.map((task) => (
         <List.Item
-          key={item.taskId}
+          key={task.taskId}
           icon={
-            item.percent === 0
+            task.percent === 0
               ? Icon.Circle
-              : item.percent < 25
+              : task.percent < 25
                 ? Icon.CircleProgress25
-                : item.percent < 50
+                : task.percent < 50
                   ? Icon.CircleProgress50
-                  : item.percent < 75
+                  : task.percent < 75
                     ? Icon.CircleProgress75
                     : Icon.CircleProgress100
           }
-          title={item.name}
-          subtitle={item.percent + "%"}
-          accessories={[{ text: item.problemsDone + "/" + item.problems }]}
+          title={task.name}
+          subtitle={task.percent + "%"}
+          accessories={[{ text: task.problemsDone + "/" + task.problems }]}
           actions={
             <ActionPanel>
-              <Action.OpenInBrowser url={item.url} />
+              <Action.OpenInBrowser url={task.url} />
             </ActionPanel>
           }
         />
