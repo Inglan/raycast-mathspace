@@ -23,7 +23,8 @@
       "name": "leaderboard-menubar",
       "title": "Leaderboard Menubar",
       "description": "Show leaderboard place in menubar",
-      "mode": "menu-bar"
+      "mode": "menu-bar",
+      "interval": "5m"
     },
     {
       "name": "information",
