@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Icon, MenuBarExtra } from "@raycast/api";
+import { Icon, MenuBarExtra, open } from "@raycast/api";
 import { getLeaderboard } from "./mathspaceapi";
 
 type Leaderboard = {
@@ -36,7 +36,13 @@ export default function Command() {
   const { place, xp, leaderboard, isLoading } = useMathspace();
 
   return (
-    <MenuBarExtra icon={Icon.Calculator} isLoading={isLoading} title={"#" + place + " - " + xp}>
+    <MenuBarExtra icon={Icon.Calculator} isLoading={isLoading} title={"#" + place}>
+      <MenuBarExtra.Item
+        title={xp + " XP"}
+        onAction={() => {
+          open("https://mathspace.co/student");
+        }}
+      ></MenuBarExtra.Item>
       {leaderboard.map((leaderboardItem) => (
         <MenuBarExtra.Item
           key={leaderboardItem.studentId}
