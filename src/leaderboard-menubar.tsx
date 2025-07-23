@@ -1,23 +1,30 @@
 import { useEffect, useState } from "react";
-import { Icon, MenuBarExtra, open } from "@raycast/api";
-import { getFavicon } from "@raycast/utils";
+import { Icon, MenuBarExtra } from "@raycast/api";
+import { getLeaderboard } from "./mathspaceapi";
 
-type Bookmark = { name: string; url: string };
+type Leaderboard = {
+  points: number;
+  rank: number;
+  name: string;
+  avatarUrl: string;
+  studentId: string;
+  rankDelta: number;
+};
 
-const useBookmarks = () => {
-  const [state, setState] = useState<{ unseen: Bookmark[]; seen: Bookmark[]; isLoading: boolean }>({
-    unseen: [],
-    seen: [],
+const useMathspace = () => {
+  const [state, setState] = useState<{ place: number; xp: number; leaderboard: Leaderboard[]; isLoading: boolean }>({
+    place: 0,
+    xp: 0,
+    leaderboard: [],
     isLoading: true,
   });
   useEffect(() => {
     (async () => {
+      const leaderboard = await getLeaderboard();
       setState({
-        unseen: [{ name: "Raycast Teams", url: "https://raycast.com/teams" }],
-        seen: [
-          { name: "Raycast Store", url: "https://raycast.com/store" },
-          { name: "Twitter", url: "https://twitter.com" },
-        ],
+        place: leaderboard.place,
+        xp: leaderboard.xp,
+        leaderboard: leaderboard.leaderboard,
         isLoading: false,
       });
     })();
@@ -26,27 +33,17 @@ const useBookmarks = () => {
 };
 
 export default function Command() {
-  const { unseen: unseenBookmarks, seen: seenBookmarks, isLoading } = useBookmarks();
+  const { place, xp, leaderboard, isLoading } = useMathspace();
 
   return (
-    <MenuBarExtra icon={Icon.Bookmark} isLoading={isLoading}>
-      <MenuBarExtra.Item title="New" />
-      {unseenBookmarks.map((bookmark) => (
+    <MenuBarExtra icon={Icon.Calculator} isLoading={isLoading} title={"#" + place + " - " + xp}>
+      {leaderboard.map((leaderboardItem) => (
         <MenuBarExtra.Item
-          key={bookmark.url}
-          icon={getFavicon(bookmark.url)}
-          title={bookmark.name}
-          onAction={() => open(bookmark.url)}
-        />
-      ))}
-      <MenuBarExtra.Separator />
-      <MenuBarExtra.Item title="Seen" />
-      {seenBookmarks.map((bookmark) => (
-        <MenuBarExtra.Item
-          key={bookmark.url}
-          icon={getFavicon(bookmark.url)}
-          title={bookmark.name}
-          onAction={() => open(bookmark.url)}
+          key={leaderboardItem.studentId}
+          icon={leaderboardItem.avatarUrl}
+          title={leaderboardItem.rank + ". " + leaderboardItem.name}
+          subtitle={String(leaderboardItem.points)}
+          onAction={() => {}}
         />
       ))}
     </MenuBarExtra>
